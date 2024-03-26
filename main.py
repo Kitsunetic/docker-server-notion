@@ -49,11 +49,16 @@ class DockerOutput:
     def __repr__(self):
         return self.__str__()
 
+    def add_key(self, key: str):
+        self.output[key] = [""] * len(self)
+        self.key_lens[key] = len(key)
+
 
 def main():
     # image
     output = subprocess.check_output(CMD_IMAGE, shell=True, text=True)
     images = DockerOutput(output)
+    images.add_key("owner    ")
     print("Images:")
     print(images)
     print("\n")
@@ -61,6 +66,7 @@ def main():
     # container
     output = subprocess.check_output(CMD_CONTAINER, shell=True, text=True)
     containers = DockerOutput(output)
+    containers.add_key("owner    ")
     print("Containers:")
     print(containers)
 
